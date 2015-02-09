@@ -36,7 +36,7 @@ private static Connection instance;
     public static Connection getInstance()
        { 
            if (instance==null)
-                new MyConnexion();
+                instance=(Connection) new MyConnexion();
         
             return instance;
         }

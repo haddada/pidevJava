@@ -20,6 +20,17 @@ public class Utilisateur {
     private String Mail;
     private String Password;
 
+    public Utilisateur() {
+    }
+
+    public Utilisateur(String Nom, String Prenom, String Mail, String Password) {
+        this.Nom = Nom;
+        this.Prenom = Prenom;
+        this.Mail = Mail;
+        this.Password = Password;
+    }
+    
+    
     public Utilisateur(int Id, String Nom, String Prenom, String Mail, String Password) {
         this.Id = Id;
         this.Nom = Nom;

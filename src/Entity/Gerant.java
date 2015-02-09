@@ -12,12 +12,25 @@ import java.util.Objects;
  *
  * @author user
  */
+//Il manque un attribut Agence, c'est l'agence dans laquelle est affecté ce gerant
 public class Gerant extends Utilisateur {
-    //Attribus
+    //Attributs
   private String numFix;
   private String numTel;
+  
 //Constructeur
-    public Gerant(int Id, String Nom, String Prenom, String Mail, String Password,String numFix,String numTel) {
+    public Gerant() {
+        super();
+    }
+
+    public Gerant(String numFix, String numTel, String Nom, String Prenom, String Mail, String Password) {
+        super(Nom, Prenom, Mail, Password);
+        this.numFix = numFix;
+        this.numTel = numTel;
+    }
+  
+    
+  public Gerant(int Id, String Nom, String Prenom, String Mail, String Password,String numFix,String numTel) {
         super(Id, Nom, Prenom, Mail, Password);
         this.numFix=numFix;
         this.numTel=numTel;

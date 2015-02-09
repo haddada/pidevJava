@@ -22,6 +22,9 @@ public class Agence {
     private String Adresse;
 
     //Constructeur
+    public Agence() {
+    }
+    
     public Agence(int Id, String Nom, String Ville, String Description, String Adresse) {
         this.Id = Id;
         this.Nom = Nom;
