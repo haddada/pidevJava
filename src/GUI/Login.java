@@ -31,6 +31,7 @@ import javax.swing.SwingUtilities;
  * @author FATHLLAH Wael
  */
 public class Login {
+    public static JFrame loginFramr;
     public static void main ( final String[] args )
     {
         SwingUtilities.invokeLater ( new Runnable ()
@@ -39,26 +40,10 @@ public class Login {
             @Override
             public void run ()
             {
-               // Look and Feel
-
-               WebLookAndFeel.install ();            
-               JFrame loginFramr =new JFrame();
-               loginFramr.setSize(300, 400);
-               loginFramr.setMaximumSize(new Dimension(300, 400));
-               loginFramr.setMinimumSize(new Dimension(300, 400));
-               loginFramr.setTitle("Login");
-               loginFramr.setLayout(new GridLayout(1, 1, 20, 20));
-               JPanel f = new JPanel();
-               f.setSize(500, 500);
-               f.setLocation(300,200);
-               f.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-               f.setLayout(new GridLayout(1 , 1 , 5 , 5));
-               f.add(createLoginPanel()); 
-               Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-               loginFramr.setLocation((dim.height/2)+150, 150);
-               loginFramr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-               loginFramr.add(f);
-               loginFramr.setVisible(true);
+               // Look and Feel 
+               WebLookAndFeel.install ();  
+               //Open Login Frame
+               openLoginFrame();
                }
         });
     }
@@ -77,9 +62,10 @@ public class Login {
         img2.setShadeWidth ( 5 );
         
         //Login
+        //final JLabel textLabelLogin = new WebLabel("<html>   <head></head>    <body> <p><font size=\"4\" color=\"#000000\">Login</font></p>   </body>  </html>  ");
         final JLabel textLabelLogin = new WebLabel("Login");
         final JTextField textFieldLogin = new JTextField();
-        //PassWrod
+        //PassWord
         final JLabel textLabelPassWrod = new WebLabel("Mot De Passe");
         final WebPasswordField textFieldPassword = new WebPasswordField();
         //Boutton
@@ -99,7 +85,8 @@ public class Login {
             @Override
             public void actionPerformed ( ActionEvent e )
             {
-                
+                loginFramr.setVisible(false); //you can't see me!
+                loginFramr.dispose(); //Destroy the JFrame object
             }
         } );
         //Login Group Panel
@@ -118,5 +105,24 @@ public class Login {
         panel.add ( LoginPanel ) ;
 
         return panel;
+    }
+    private static void openLoginFrame(){
+        loginFramr =new JFrame();
+        loginFramr.setSize(300, 400);
+        loginFramr.setMaximumSize(new Dimension(300, 400));
+        loginFramr.setMinimumSize(new Dimension(300, 400));
+        loginFramr.setTitle("Login");
+        loginFramr.setLayout(new GridLayout(1, 1, 20, 20));
+        JPanel f = new JPanel();
+        f.setSize(500, 500);
+        f.setLocation(300,200);
+        f.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        f.setLayout(new GridLayout(1 , 1 , 5 , 5));
+        f.add(createLoginPanel()); 
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        loginFramr.setLocation((dim.height/2)+150, 150);
+        loginFramr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loginFramr.add(f);
+        loginFramr.setVisible(true);
     }
 }
