@@ -8,7 +8,7 @@ package DAO;
 
 import Entity.Agence;
 import Entity.Gerant;
-import Technique.MyConnexion;
+import Technique.MyConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public class AgenceDAO implements Interface.IAgenceDAO{
     public void insertAgence(Agence ag) {
          String req="insert into agence (nom,ville,description,adresse) values(?,?,?,?)";
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(req);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(req);
             ps.setString(1, ag.getNom());
             ps.setString(1, ag.getVille());
             ps.setString(1, ag.getDescription());
@@ -42,7 +42,7 @@ public class AgenceDAO implements Interface.IAgenceDAO{
     public void deleteAgence(int id) {
         String req="delete from agence where id_depot=?";
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(req);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(req);
             ps.setInt(1,id);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -56,7 +56,7 @@ public class AgenceDAO implements Interface.IAgenceDAO{
         String requete="select * from agence";   
         ArrayList<Agence> lst=new ArrayList<Agence>();
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(requete);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             ResultSet resultat=ps.executeQuery();
             
             while(resultat.next()){
@@ -81,7 +81,7 @@ public class AgenceDAO implements Interface.IAgenceDAO{
         String requete="select * from agence where id=?";
  
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(requete);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             ps.setInt(1, id);
             ResultSet resultat=ps.executeQuery();
             while(resultat.next()){
