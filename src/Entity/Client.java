@@ -19,6 +19,10 @@ public class Client extends Utilisateur{
     
     
   //Constructeur
+    public Client(){
+        
+    }
+    
     public Client(int Id, String Nom, String Prenom, String Mail, String Password,String statusMatrimonial) {
         super(Id, Nom, Prenom, Mail, Password);
         this.statusMatrimonial=statusMatrimonial;
