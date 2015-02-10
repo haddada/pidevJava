@@ -6,6 +6,8 @@
 
 package GUI;
 
+import DAO.LoginDAO;
+import Technique.MyConnexion;
 import com.alee.extended.image.WebDecoratedImage;
 import com.alee.extended.panel.GroupPanel;
 import com.alee.extended.panel.GroupingType;
@@ -16,10 +18,12 @@ import com.alee.laf.panel.WebPanel;
 import com.alee.laf.text.*;
 import com.alee.laf.toolbar.WhiteSpace;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -44,6 +48,7 @@ public class Login {
                WebLookAndFeel.install ();  
                //Open Login Frame
                openLoginFrame();
+               
                }
         });
     }
@@ -67,7 +72,7 @@ public class Login {
         final JTextField textFieldLogin = new JTextField();
         //PassWord
         final JLabel textLabelPassWrod = new WebLabel("Mot De Passe");
-        final WebPasswordField textFieldPassword = new WebPasswordField();
+        final JPasswordField textFieldPassword = new JPasswordField();
         //Boutton
         final JButton login = new JButton ( "Login" );
         final JButton cancel = new JButton ( "Cancel" );
@@ -77,7 +82,28 @@ public class Login {
             @Override
             public void actionPerformed ( ActionEvent e )
             {
-                
+                //new MyConnexion();
+                LoginDAO ldao=new LoginDAO();
+                char[] pass = textFieldPassword.getPassword();
+                String passString = new String(pass);
+                String mailString = textFieldLogin.getText();
+                if(!fieldIsEmpty(mailString)){
+                    //Mail fiels not empty
+                    if(!fieldIsEmpty(passString))
+                    {
+                        //Password fiels not empty
+                        System.out.println(ldao.Login(textFieldLogin.getText(),passString));
+                    }else
+                    {
+                        System.out.println("Password field is empty");
+                    }
+                }else
+                {
+                    System.out.println("Login field is empty");
+                }
+            }
+            private boolean fieldIsEmpty(String mailString) {
+                return mailString.equals("");
             }
         } );
         cancel.addActionListener ( new ActionListener ()
