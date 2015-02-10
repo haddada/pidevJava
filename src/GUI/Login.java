@@ -47,8 +47,7 @@ public class Login {
                // Look and Feel 
                WebLookAndFeel.install ();  
                //Open Login Frame
-               openLoginFrame();
-               
+               openLoginFrame();             
                }
         });
     }
