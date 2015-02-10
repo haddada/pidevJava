@@ -17,12 +17,12 @@ public class MyConnexion {
     
     
    
-final private String url="jdbc:mysql://localhost/:3306/ds";
+final private String url="jdbc:mysql://localhost:3306/agenceimmob";
 final private String login="root";
 final private String pwd="root";
 private static Connection instance;
     
-    private MyConnexion()
+    public MyConnexion()
     {
             try {instance=DriverManager.getConnection(url,login,pwd);
           System.out.println("Connected");
