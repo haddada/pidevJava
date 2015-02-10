@@ -6,26 +6,27 @@
 
 package DAO;
 
-import Interface.IAdministrateurDAO;
+
 import Technique.MyConnexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
- * @author user
+ * @author FATHLLAH Wael
  */
-public class AdministrateurDAO implements Interface.IAdministrateurDAO {
-
-       private Connection connection;
+public class LoginDAO implements Interface.ILoginDAO{
+    private Connection connection;
     
     
 
     @Override
-    public boolean signIn(String mail, String pass) {
-        
+    public int Login(String mail, String pass) {
        String requete = "select * from administrateur where mot_de_passe=? AND mail=?"; 
        try{
             PreparedStatement ps = MyConnexion.getInstance().prepareStatement(requete);
@@ -33,16 +34,19 @@ public class AdministrateurDAO implements Interface.IAdministrateurDAO {
             ps.setString(2, mail);
             ResultSet resultat = ps.executeQuery();
             while (resultat.next()){
-                 resultat.getInt(6);
+                
+                return resultat.getInt(6);
+                
+                
             }
             } catch (SQLException ex) {
             System.out.println("erreur");
-            return false;
+            return 404;
         }
-        return true;
+        return 500;
     }
 
-   
-   
+  
     
+  
 }

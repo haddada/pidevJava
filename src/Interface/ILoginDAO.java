@@ -8,10 +8,10 @@ package Interface;
 
 /**
  *
- * @author seif
+ * @author FATHLLAH Wael
  */
-public interface IAdministrateurDAO {
+
+public interface ILoginDAO {
+      public int Login(String mail, String pass);
     
-//Authentification
-    public boolean signIn(String Login,String Password);   
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package DAO;
 
 import Entity.Agence;
@@ -21,13 +20,13 @@ import java.util.logging.Logger;
  *
  * @author user
  */
-public class AgenceDAO implements Interface.IAgenceDAO{
+public class AgenceDAO implements Interface.IAgenceDAO {
 
     @Override
     public void insertAgence(Agence ag) {
-         String req="insert into agence (nom,ville,description,adresse) values(?,?,?,?)";
+        String req = "insert into agence (nom,ville,description,adresse) values(?,?,?,?)";
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(req);
+            PreparedStatement ps = MyConnexion.getInstance().prepareStatement(req);
             ps.setString(1, ag.getNom());
             ps.setString(1, ag.getVille());
             ps.setString(1, ag.getDescription());
@@ -40,10 +39,10 @@ public class AgenceDAO implements Interface.IAgenceDAO{
 
     @Override
     public void deleteAgence(int id) {
-        String req="delete from agence where id_depot=?";
+        String req = "delete from agence where id_depot=?";
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(req);
-            ps.setInt(1,id);
+            PreparedStatement ps = MyConnexion.getInstance().prepareStatement(req);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(AgenceDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,15 +51,15 @@ public class AgenceDAO implements Interface.IAgenceDAO{
 
     @Override
     public List<Agence> displayAll() {
-        
-        String requete="select * from agence";   
-        ArrayList<Agence> lst=new ArrayList<Agence>();
+
+        String requete = "select * from agence";
+        ArrayList<Agence> lst = new ArrayList<Agence>();
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(requete);
-            ResultSet resultat=ps.executeQuery();
-            
-            while(resultat.next()){
-              
+            PreparedStatement ps = MyConnexion.getInstance().prepareStatement(requete);
+            ResultSet resultat = ps.executeQuery();
+
+            while (resultat.next()) {
+
                 Agence ag = new Agence();
                 ag.setId(resultat.getInt(1));
                 ag.setNom(resultat.getString(2));
@@ -70,21 +69,21 @@ public class AgenceDAO implements Interface.IAgenceDAO{
                 lst.add(ag);
             }
         } catch (SQLException ex) {
-                Logger.getLogger(AgenceDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AgenceDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return lst;
+        return lst;
     }
 
     @Override
     public Agence findAgenceById(int id) {
-        Agence ag=new Agence();        
-        String requete="select * from agence where id=?";
- 
+        Agence ag = new Agence();
+        String requete = "select * from agence where id=?";
+
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(requete);
+            PreparedStatement ps = MyConnexion.getInstance().prepareStatement(requete);
             ps.setInt(1, id);
-            ResultSet resultat=ps.executeQuery();
-            while(resultat.next()){
+            ResultSet resultat = ps.executeQuery();
+            while (resultat.next()) {
                 ag.setId(resultat.getInt(1));
                 ag.setNom(resultat.getString(2));
                 ag.setVille(resultat.getString(3));
@@ -94,7 +93,7 @@ public class AgenceDAO implements Interface.IAgenceDAO{
         } catch (SQLException ex) {
             Logger.getLogger(AgenceDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-                return ag;
+        return ag;
     }
-    
+
 }
