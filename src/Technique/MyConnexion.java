@@ -17,7 +17,7 @@ public class MyConnexion {
     
     
    
-final private String url="jdbc:mysql://localhost/:3306/ds";
+final private String url="jdbc:mysql://localhost:3306/agenceImmob";
 final private String login="root";
 final private String pwd="root";
 private static Connection instance;
