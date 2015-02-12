@@ -8,7 +8,7 @@ package DAO;
 
 import Entity.Agence;
 import Entity.Gerant;
-import Technique.MyConnexion;
+import Technique.MyConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +30,7 @@ public class GerantDAO implements Interface.IGerantDAO{
          String req="insert into gerant (nom,prenom,mail,password,numFix,numTel) values(?,?,?,?,?,?,?) ";
          //Rque : Est ce qu'on une table utilisateur(tous les champs) dans la BD ou table gerant .... 
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(req);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(req);
             ps.setString(1, g.getNom());
             ps.setString(2, g.getPrenom());
             ps.setString(3, g.getMail());
@@ -52,7 +52,7 @@ public class GerantDAO implements Interface.IGerantDAO{
     public void deleteGerant(int id) {
         String req="delete from gerant where id=? ";
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(req);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(req);
             ps.executeUpdate();
             System.out.println("Insertion depot effectuée avec succés !");
         } catch (SQLException ex) {
@@ -67,7 +67,7 @@ public class GerantDAO implements Interface.IGerantDAO{
         Gerant d=new Gerant();
         ArrayList<Gerant> lst=new ArrayList<Gerant>();
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(requete);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             ResultSet resultat=ps.executeQuery();
             GerantDAO dpd=new GerantDAO();
             
@@ -94,7 +94,7 @@ public class GerantDAO implements Interface.IGerantDAO{
         String requete="select * from gerant where id=?";
  
         try {
-            PreparedStatement ps=MyConnexion.getInstance().prepareStatement(requete);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             ps.setInt(1, id);
             ResultSet resultat=ps.executeQuery();
             while(resultat.next()){

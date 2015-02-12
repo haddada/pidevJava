@@ -15,19 +15,23 @@ import java.util.Objects;
 public class Administrateur {
     
     //Declcaration des attribus
-    private int Id;
-    private String Nom;
-    private String Prenom;
-    private String Login;
-    private String Password;
+    protected int Id;
+    protected String Nom;
+    protected String Prenom;
+    protected String Login;
+    protected String Password;
+    protected int  privilege;
+    protected String mail;
 
     //Constructeur
-    public Administrateur(int Id, String Nom, String Prenom, String Login, String Password) {
+    public Administrateur(int Id, String Nom, String Prenom, String Login, String Password,String mail,int privilege) {
         this.Id = Id;
         this.Nom = Nom;
         this.Prenom = Prenom;
         this.Login = Login;
         this.Password = Password;
+        this.privilege=privilege;
+        this.mail=mail;
     }
 
   //Getters and Setters
@@ -51,6 +55,15 @@ public class Administrateur {
         return Password;
     }
 
+    public int getPrivilege() {
+        return privilege;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+    
+
     public void setId(int Id) {
         this.Id = Id;
     }
@@ -71,6 +84,15 @@ public class Administrateur {
         this.Password = Password;
     }
 
+    public void setPrivilege(int privilege) {
+        this.privilege = privilege;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+    
+    
 //Methode equals 
     @Override
     public boolean equals(Object obj) {

@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 
 public class MyConnexion {
 
-    final private String url = "jdbc:mysql://localhost:3306/agenceImmob";
+    final private String url = "jdbc:mysql://localhost:3306/agenceimmob";
     final private String login = "root";
-    final private String pwd = "root";
+    final private String pwd = "";
     private static Connection instance;
 
     private MyConnexion() {

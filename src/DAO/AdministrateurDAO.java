@@ -21,8 +21,6 @@ public class AdministrateurDAO implements Interface.IAdministrateurDAO {
 
        private Connection connection;
     
-    
-
     @Override
     public boolean signIn(String mail, String pass) {
         
