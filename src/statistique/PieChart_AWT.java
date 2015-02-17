@@ -37,7 +37,7 @@ public class PieChart_AWT extends ApplicationFrame
    private static JFreeChart createChart( PieDataset dataset )
    {
       JFreeChart chart = ChartFactory.createPieChart(      
-         "Mobile Sales",  // chart title 
+         "nombre des offres par ville",  // chart title 
          dataset,        // data    
          true,           // include legend   
          true, 

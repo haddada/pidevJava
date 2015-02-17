@@ -11,8 +11,8 @@ package Entity;
  */
 public class SuperAdmin extends Administrateur {
 
-    public SuperAdmin(int Id, String Nom, String Prenom, String Login, String Password,String mail) {
-        super(Id, Nom, Prenom, Login, Password,mail,77);     
+    public SuperAdmin(int Id, String Nom, String Prenom, String Password,String mail) {
+        super(Id, Nom, Prenom, Password,mail,77);     
     }
     
     

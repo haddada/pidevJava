@@ -18,17 +18,18 @@ public class Administrateur {
     protected int Id;
     protected String Nom;
     protected String Prenom;
-    protected String Login;
     protected String Password;
     protected int  privilege;
     protected String mail;
 
     //Constructeur
-    public Administrateur(int Id, String Nom, String Prenom, String Login, String Password,String mail,int privilege) {
+    public Administrateur(){
+        
+    }
+    public Administrateur(int Id, String Nom, String Prenom, String Password,String mail,int privilege) {
         this.Id = Id;
         this.Nom = Nom;
         this.Prenom = Prenom;
-        this.Login = Login;
         this.Password = Password;
         this.privilege=privilege;
         this.mail=mail;
@@ -45,10 +46,6 @@ public class Administrateur {
 
     public String getPrenom() {
         return Prenom;
-    }
-
-    public String getLogin() {
-        return Login;
     }
 
     public String getPassword() {
@@ -76,9 +73,7 @@ public class Administrateur {
         this.Prenom = Prenom;
     }
 
-    public void setLogin(String Login) {
-        this.Login = Login;
-    }
+
 
     public void setPassword(String Password) {
         this.Password = Password;
@@ -112,9 +107,7 @@ public class Administrateur {
         if (!Objects.equals(this.Prenom, other.Prenom)) {
             return false;
         }
-        if (!Objects.equals(this.Login, other.Login)) {
-            return false;
-        }
+  
         if (!Objects.equals(this.Password, other.Password)) {
             return false;
         }
@@ -124,7 +117,7 @@ public class Administrateur {
     //Affichage
     @Override
     public String toString() {
-        return "Administrateur{" + "Id=" + Id + ", Nom=" + Nom + ", Prenom=" + Prenom + ", Login=" + Login + ", Password=" + Password + '}';
+        return "Administrateur{" + "Id=" + Id + ", Nom=" + Nom + ", Prenom=" + Prenom + ", Password=" + Password + '}';
     }
     
     

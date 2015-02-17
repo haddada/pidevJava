@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chart;
+package statistique;
 
 /**
  *
@@ -39,7 +39,7 @@ public class PieChart3D
       plot.setInteriorGap( 0.02 );             
       int width = 640; /* Width of the image */             
       int height = 480; /* Height of the image */                             
-      File pieChart3D = new File( "pie_Chart3D.jpeg" );                           
-      ChartUtilities.saveChartAsJPEG( pieChart3D , chart , width , height );   
+      File pieChart3D = new File( "pie_Chart3D.png" );                           
+      ChartUtilities.saveChartAsPNG( pieChart3D , chart , width , height );   
    }
 }

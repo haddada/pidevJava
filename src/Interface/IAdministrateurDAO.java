@@ -6,6 +6,9 @@
 
 package Interface;
 
+import Entity.Administrateur;
+import java.util.List;
+
 /**
  *
  * @author seif
@@ -14,4 +17,8 @@ public interface IAdministrateurDAO {
     
 //Authentification
     public boolean signIn(String Login,String Password);   
+    public void insertAdmin(Administrateur ad);
+    public void deleteAdmin(int id);
+    public List<Administrateur> displayAll();
+    public Administrateur findAdminById(int id);
 }

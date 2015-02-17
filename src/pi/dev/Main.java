@@ -9,19 +9,19 @@ import DAO.AdministrateurDAO;
 import DAO.SuperAdminDAO;
 import Entity.Administrateur;
 import Entity.SuperAdmin;
+import javax.swing.*;
 
 /**
  *
  * @author seif
  */
 public class Main {
-    
-    public static void main(String []args){
-         SuperAdminDAO adDAO =new SuperAdminDAO();
-        SuperAdmin adm=new SuperAdmin(1,"haddada", "seif", "root","root", "seif@gmail");
+
+    public static void main(String[] args) {
+        SuperAdminDAO adDAO = new SuperAdminDAO();
+        SuperAdmin adm = new SuperAdmin(1, "mmm", "zafr", "root1", "seif@gmail");
         adDAO.insertAdmin(adm);
+
     }
-   
-    
-    
+
 }
