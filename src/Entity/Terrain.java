@@ -11,17 +11,13 @@ package Entity;
  * @author user
  */
 public class Terrain extends BienImmobilier{
-
-    //Attribut
-    private String Terrain;
-    
+/*
     //Constructeur
-    public Terrain(int Id, String Descritpion, String superFicie) {
-        super(Id, Descritpion, superFicie);
+    public Terrain(int Id, String Descritpion, int surface) {
+        super(Id, Descritpion, surface);
         
-       this.Terrain=Terrain;
     }
     
-    
+    */
     
 }

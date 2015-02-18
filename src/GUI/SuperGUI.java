@@ -18,25 +18,51 @@ import com.alee.laf.label.WebLabel;
 import com.alee.managers.style.skin.ninepatch.NPLabelPainter;
 import DAO.AdministrateurDAO;
 import Technique.SearchAdminAdapter;
+import javax.swing.event.*;
 import com.alee.extended.image.WebDecoratedImage;
+import com.alee.extended.progress.WebProgressOverlay;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.net.MalformedURLException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.net.URL;
 
 public class SuperGUI extends javax.swing.JPanel {
 
     /**
      * Creates new form SuperGUI
      */
-    AdminAdapter admin = new AdminAdapter();
-    AdministrateurDAO adminDAO = new AdministrateurDAO();
-    public int privilege;
+    private AdminAdapter admin = new AdminAdapter();
+    private AdministrateurDAO adminDAO = new AdministrateurDAO();
+    private int privilege;
+    private MessageDigest md;
+    private StringBuffer sb;
+  
 
     public SuperGUI() {
         initComponents();
-        panelAjout.setLocation(200,200);
-        jTable1.setModel(new AdminAdapter());
+        panelAjout.setLocation(200, 200);
+        adminTable.setModel(new AdminAdapter());
+
+      
+
     }
 
-    public void updateTable() {
-        jTable1.setModel(new AdminAdapter());
+    protected ImageIcon createImageIcon(String path,
+            String description) throws NoSuchAlgorithmException, MalformedURLException, IOException {
+
+        URL imgURL = new URL(path);
+        Image image = ImageIO.read(imgURL);
+        if (imgURL != null) {
+            return new ImageIcon(image, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+
     }
 
     /**
@@ -50,38 +76,40 @@ public class SuperGUI extends javax.swing.JPanel {
 
         label2 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        recherche = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
+        adminTable = new javax.swing.JTable();
+        erase = new javax.swing.JButton();
         panelAjout = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        repeatL = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         delete = new javax.swing.JCheckBox();
         add = new javax.swing.JCheckBox();
         nom = new javax.swing.JTextField();
         prenom = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        modify = new javax.swing.JCheckBox();
+        passL = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        prenomL = new javax.swing.JLabel();
         pass = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        ajout = new javax.swing.JButton();
         mail = new javax.swing.JTextField();
         repeat = new javax.swing.JTextField();
+        photoPanel = new javax.swing.JPanel();
+        show = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(241, 241, 241));
 
         label2.setText("Administrateur");
 
-        jButton2.setText("recherche");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        recherche.setText("recherche");
+        recherche.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                rechercheActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        adminTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -89,27 +117,28 @@ public class SuperGUI extends javax.swing.JPanel {
                 "nom", "prenom", "mail", "privilège"
             }
         ));
-        jTable1.setGridColor(new java.awt.Color(204, 204, 204));
-        jTable1.setSelectionBackground(new java.awt.Color(102, 102, 102));
-        jScrollPane1.setViewportView(jTable1);
+        adminTable.setGridColor(new java.awt.Color(204, 204, 204));
+        adminTable.setSelectionBackground(new java.awt.Color(102, 102, 102));
+        jScrollPane1.setViewportView(adminTable);
 
-        jButton3.setText("supprimer");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        erase.setText("supprimer");
+        erase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                eraseActionPerformed(evt);
             }
         });
 
         panelAjout.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setText("répetez le mot de passe");
-        panelAjout.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 151, -1, 23));
+        repeatL.setText("répetez le mot de passe");
+        panelAjout.add(repeatL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 151, -1, 23));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("nom");
         panelAjout.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, -1, -1));
 
         delete.setText("DELETE");
-        panelAjout.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 251, -1, -1));
+        panelAjout.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, -1, -1));
 
         add.setText("ADD");
         add.addActionListener(new java.awt.event.ActionListener() {
@@ -117,40 +146,72 @@ public class SuperGUI extends javax.swing.JPanel {
                 addActionPerformed(evt);
             }
         });
-        panelAjout.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 251, -1, -1));
+        panelAjout.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
         panelAjout.add(nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 11, 249, -1));
         panelAjout.add(prenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 56, 249, -1));
 
-        jLabel3.setText("mot de passe");
-        panelAjout.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 105, -1, -1));
+        passL.setText("mot de passe");
+        panelAjout.add(passL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 105, -1, -1));
 
-        jLabel5.setText("mail");
-        panelAjout.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 207, -1, -1));
+        emailLabel.setText("E-mail (obligatoire)\t");
+        panelAjout.add(emailLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 207, -1, -1));
 
-        jLabel2.setText("prenom");
-        panelAjout.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 59, -1, -1));
-
-        modify.setText("modify");
-        panelAjout.add(modify, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 251, -1, -1));
+        prenomL.setText("prenom");
+        panelAjout.add(prenomL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 59, -1, -1));
         panelAjout.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 102, 249, -1));
 
-        jButton4.setText("Ajouter Admin");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        ajout.setText("Ajouter Admin");
+        ajout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                ajoutActionPerformed(evt);
             }
         });
-        panelAjout.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(383, 251, 114, -1));
+        panelAjout.add(ajout, new org.netbeans.lib.awtextra.AbsoluteConstraints(383, 251, 114, -1));
         panelAjout.add(mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 204, 249, -1));
         panelAjout.add(repeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 152, 249, -1));
+
+        javax.swing.GroupLayout photoPanelLayout = new javax.swing.GroupLayout(photoPanel);
+        photoPanel.setLayout(photoPanelLayout);
+        photoPanelLayout.setHorizontalGroup(
+            photoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        photoPanelLayout.setVerticalGroup(
+            photoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        show.setText("detail");
+        show.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel2.setText("Tableau de bord");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(show)
+                .addGap(51, 51, 51)
+                .addComponent(erase)
+                .addGap(45, 45, 45))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(panelAjout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(photoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())
@@ -159,65 +220,64 @@ public class SuperGUI extends javax.swing.JPanel {
                         .addGap(183, 183, 183)
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(recherche)
                         .addGap(42, 42, 42))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(45, 45, 45))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(panelAjout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label2)
                     .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(recherche))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
-                .addComponent(jButton3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(erase)
+                    .addComponent(show))
                 .addGap(59, 59, 59)
-                .addComponent(panelAjout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelAjout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(photoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(352, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void eraseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eraseActionPerformed
 
-        if (jTable1.getSelectedRow() == -1) {
-            if (jTable1.getRowCount() == 0) {
+        if (adminTable.getSelectedRow() == -1) {
+            if (adminTable.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "le tableau est vide");
             } else {
                 JOptionPane.showMessageDialog(null, "il faut selectionner une ligne");
             }
         } else {
-            int i = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0) + "");
+            int i = Integer.parseInt(adminTable.getValueAt(adminTable.getSelectedRow(), 0) + "");
             adminDAO.deleteAdmin(i);
-            jTable1.setModel(new AdminAdapter());
+            adminTable.setModel(new AdminAdapter());
 
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_eraseActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void rechercheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rechercheActionPerformed
         // TODO add your handling code here:
 
         AdministrateurDAO adminDAO = new AdministrateurDAO();
         String ch = new String();
         ch = search.getText();
-        jTable1.setModel(new SearchAdminAdapter(ch));
-    }//GEN-LAST:event_jButton2ActionPerformed
+        adminTable.setModel(new SearchAdminAdapter(ch));
+
+    }//GEN-LAST:event_rechercheActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
 
     }//GEN-LAST:event_addActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void ajoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajoutActionPerformed
         // TODO add your handling code here:
         int i = 0;
         if (nom.getText().equals("")) {
@@ -246,31 +306,22 @@ public class SuperGUI extends javax.swing.JPanel {
         /*
          add 7
          delete 5
-         modify 4
-         si add+delete ==> ajout modify 77 (super)
-         si add+modify==> 74  (super -delete)
+         
+         si add+delete ==> ajout modify 77 (super)        
          si delete+modify=> 54   (super - add)
          si add =>70 (super -modify-delete)
          si delete=> 50 (super - add -modify)
-         si modify =>40 (super -add -delete)
+        
          */
         if (add.isSelected()) {
             if (delete.isSelected()) {
-                modify.setSelected(true);
                 privilege = 77;
-            } else if (modify.isSelected()) {
-                privilege = 74;
             } else {
                 privilege = 70;
             }
         } else if (delete.isSelected()) {
-            if (modify.isSelected()) {
-                privilege = 54;
-            } else {
-                privilege = 50;
-            }
-        } else if (modify.isSelected()) {
-            privilege = 40;
+            privilege = 50;
+
         } else {
             i = -3;
         }
@@ -287,41 +338,91 @@ public class SuperGUI extends javax.swing.JPanel {
             admin.setPrivilege(privilege);
             AdministrateurDAO adminDAO = new AdministrateurDAO();
             adminDAO.insertAdmin(admin);
-            jTable1.setModel(new AdminAdapter());
+            adminTable.setModel(new AdminAdapter());
             nom.setText("");
             prenom.setText("");
             pass.setText("");
             mail.setText("");
             repeat.setText("");
             add.setSelected(false);
-            modify.setSelected(false);
             delete.setSelected(false);
 
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_ajoutActionPerformed
 
+    private void showActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showActionPerformed
+        // TODO add your handling code here:
+      
 
+        ImageIcon icon = new ImageIcon();
+        String mailSelected = (String) (adminTable.getValueAt(adminTable.getSelectedRow(), 3) + "");
+        photoPanel.removeAll();
+        try {
+            sb = new StringBuffer();
+            sb = this.hashing(mailSelected);
+            icon = createImageIcon("http://www.gravatar.com/avatar/" + sb.toString(), "icon");
+
+            JLabel iconLabel = new JLabel(icon, JLabel.LEFT);
+            JLabel labelNom = new JLabel(mailSelected, JLabel.RIGHT);
+
+            photoPanel.setLayout(null);
+            iconLabel.setBounds(0, 0, 100, 100);
+            labelNom.setBounds(0, 300, 150, 200);
+
+            photoPanel.add(iconLabel);
+            photoPanel.add(labelNom);
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(SuperGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(SuperGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SuperGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("http://www.gravatar.com/avatar/" + sb.toString());
+    }//GEN-LAST:event_showActionPerformed
+
+    //fonction de hashage pour le mail
+    public StringBuffer hashing(String maild) {
+        StringBuffer sb1 = new StringBuffer();
+        try {
+            md = MessageDigest.getInstance("MD5");
+            md.update(maild.getBytes());
+            byte[] digest = md.digest();
+
+            for (byte b : digest) {
+                sb1.append(String.format("%02x", b & 0xff));
+            }
+            return sb1;
+        } catch (Exception e) {
+            System.out.println("Exception");
+        }
+        return sb1;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox add;
+    private javax.swing.JTable adminTable;
+    private javax.swing.JButton ajout;
     private javax.swing.JCheckBox delete;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JButton erase;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel label2;
     private javax.swing.JTextField mail;
-    private javax.swing.JCheckBox modify;
     private javax.swing.JTextField nom;
     private javax.swing.JPanel panelAjout;
     private javax.swing.JTextField pass;
+    private javax.swing.JLabel passL;
+    private javax.swing.JPanel photoPanel;
     private javax.swing.JTextField prenom;
+    private javax.swing.JLabel prenomL;
+    private javax.swing.JButton recherche;
     private javax.swing.JTextField repeat;
+    private javax.swing.JLabel repeatL;
     private javax.swing.JTextField search;
+    private javax.swing.JButton show;
     // End of variables declaration//GEN-END:variables
+
 }

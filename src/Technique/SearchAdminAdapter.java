@@ -18,7 +18,7 @@ public class SearchAdminAdapter extends AbstractTableModel {
 
     public List<Administrateur> admins;
 
-    public String[] header = {"Id", "Nom", "Prenom", "Mail", "privilege"};
+    public String[] header = {"Id", "Nom", "Prenom", "Mail","password" ,"privilege"};
 
     public SearchAdminAdapter(String ch) {
 

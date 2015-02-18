@@ -27,16 +27,16 @@ public class GerantDAO implements Interface.IGerantDAO{
     public void insertGerant(Gerant g) {
         
         // ajout de l'attribut role qui prend 1 pour gerant et 0 pour les autres utilisateurs
-         String req="insert into gerant (nom,prenom,mail,password,numFix,numTel) values(?,?,?,?,?,?,?) ";
-         //Rque : Est ce qu'on une table utilisateur(tous les champs) dans la BD ou table gerant .... 
+         String req="insert into utilisateur (mail,password,nom,prenom,numMobile,numFix,role) values(?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(req);
-            ps.setString(1, g.getNom());
-            ps.setString(2, g.getPrenom());
-            ps.setString(3, g.getMail());
-            ps.setString(4, g.getPassword());
-            ps.setString(5, g.getNumFix());
-            ps.setString(6, g.getNumTel());
+            ps.setString(1, g.getMail());
+            ps.setString(2, g.getPassword());
+            ps.setString(3, g.getNom());
+            ps.setString(4, g.getPrenom());
+            ps.setString(5, g.getNumTel());
+            ps.setString(6, g.getNumFix());
+            ps.setInt(7, 1);
             
             // le gearant doit avoir une table a lui parceque la table 
             // gerant admet une clé etrangére de la table agence
@@ -50,11 +50,13 @@ public class GerantDAO implements Interface.IGerantDAO{
 
     @Override
     public void deleteGerant(int id) {
-        String req="delete from gerant where id=? ";
+        String req="delete from utilisateur where id=? and role=?";
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(req);
+            ps.setInt(1, id);
+            ps.setInt(2, 1);
             ps.executeUpdate();
-            System.out.println("Insertion depot effectuée avec succés !");
+            System.out.println("Suppression Gerant avec succés !");
         } catch (SQLException ex) {
             Logger.getLogger(GerantDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -63,27 +65,25 @@ public class GerantDAO implements Interface.IGerantDAO{
     @Override
     public List<Gerant> displayAll() {
         
-        String requete="select * from stock";   
-        Gerant d=new Gerant();
+        String requete="select * from utilisateur where role=?";
         ArrayList<Gerant> lst=new ArrayList<Gerant>();
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            ps.setInt(1, 1);
             ResultSet resultat=ps.executeQuery();
-            GerantDAO dpd=new GerantDAO();
-            
             while(resultat.next()){
-              /*
-                Agence ag = new Agence();
-                s.setNum(resultat.getInt(1));
-                s.setType_vet(resultat.getString(2));
-                s.setNbr_articles(resultat.getInt(3));
-                s.setD(dpd.findAgenceById(resultat.getInt(4)));
-                
-                lst.add(s);
-               */
+                Gerant gr=new Gerant();
+                gr.setId(resultat.getInt(1));
+                gr.setMail(resultat.getString(2));
+                gr.setPassword(resultat.getString(3));
+                gr.setNom(resultat.getString(4));
+                gr.setPrenom(resultat.getString(5));
+                gr.setNumTel(resultat.getString(6));
+                gr.setNumFix(resultat.getString(7));
+                lst.add(gr);
             }
         } catch (SQLException ex) {
-         //   Logger.getLogger(DepotDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerantDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
          return lst;
     }
@@ -91,27 +91,149 @@ public class GerantDAO implements Interface.IGerantDAO{
     @Override
     public Gerant findGerantById(int id) {
         Gerant gr=new Gerant();        
-        String requete="select * from gerant where id=?";
+        String requete="select * from utilisateur where id=? and role=?";
  
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             ps.setInt(1, id);
+            ps.setInt(2, 1);
             ResultSet resultat=ps.executeQuery();
             while(resultat.next()){
                 gr.setId(resultat.getInt(1));
-                gr.setNom(resultat.getString(2));
-                gr.setPrenom(resultat.getString(3));
-                gr.setMail(resultat.getString(4));
-                gr.setPassword(resultat.getString(5));
-                gr.setNumFix(resultat.getString(6));
-                gr.setNumTel(resultat.getString(7));
+                gr.setMail(resultat.getString(2));
+                gr.setPassword(resultat.getString(3));
+                gr.setNom(resultat.getString(4));
+                gr.setPrenom(resultat.getString(5));
+                gr.setNumTel(resultat.getString(6));
+                gr.setNumFix(resultat.getString(7));
             }
         } catch (SQLException ex) {
             Logger.getLogger(GerantDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
                 return gr;
     }
+
+    @Override
+    public void updateGerant(Gerant g) {
+//      UPDATE Customers
+//SET ContactName='Alfred Schmidt', City='Hamburg'
+//WHERE CustomerName='Alfreds Futterkiste'; 
+        String req="update utilisateur set mail=?,password=?,nom=?,prenom=?,numMobile=?,numFix=? "
+                + "where id=? and role=?";
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(req);
+            ps.setString(1,g.getMail());
+            ps.setString(2,g.getPassword());
+            ps.setString(3,g.getNom());
+            ps.setString(4,g.getPrenom());
+            ps.setString(5,g.getNumTel());
+            ps.setString(6,g.getNumFix());
+            ps.setInt(7,g.getId());
+            ps.setInt(8, 1);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(GerantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public List<Gerant> displayAllTrieName() {
+        
+        String requete="select * from utilisateur where role=? order by nom ";
+        ArrayList<Gerant> lst=new ArrayList<Gerant>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            ps.setInt(1, 1);
+            ResultSet resultat=ps.executeQuery();
+            while(resultat.next()){
+                Gerant gr=new Gerant();
+                gr.setId(resultat.getInt(1));
+                gr.setMail(resultat.getString(2));
+                gr.setPassword(resultat.getString(3));
+                gr.setNom(resultat.getString(4));
+                gr.setPrenom(resultat.getString(5));
+                gr.setNumTel(resultat.getString(6));
+                gr.setNumFix(resultat.getString(7));
+                lst.add(gr);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GerantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return lst;
+    }
+    public List<Gerant> displayAllTriePrenom() {
+        
+        String requete="select * from utilisateur where role=? order by prenom";
+        ArrayList<Gerant> lst=new ArrayList<Gerant>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            ps.setInt(1, 1);
+            ResultSet resultat=ps.executeQuery();
+            while(resultat.next()){
+                Gerant gr=new Gerant();
+                gr.setId(resultat.getInt(1));
+                gr.setMail(resultat.getString(2));
+                gr.setPassword(resultat.getString(3));
+                gr.setNom(resultat.getString(4));
+                gr.setPrenom(resultat.getString(5));
+                gr.setNumTel(resultat.getString(6));
+                gr.setNumFix(resultat.getString(7));
+                lst.add(gr);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GerantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return lst;
+    }
     
+    public List<Gerant> displayAllTrieMail() {
+        
+        String requete="select * from utilisateur where role=? order by mail";
+        ArrayList<Gerant> lst=new ArrayList<Gerant>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            ps.setInt(1, 1);
+            ResultSet resultat=ps.executeQuery();
+            while(resultat.next()){
+                Gerant gr=new Gerant();
+                gr.setId(resultat.getInt(1));
+                gr.setMail(resultat.getString(2));
+                gr.setPassword(resultat.getString(3));
+                gr.setNom(resultat.getString(4));
+                gr.setPrenom(resultat.getString(5));
+                gr.setNumTel(resultat.getString(6));
+                gr.setNumFix(resultat.getString(7));
+                lst.add(gr);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GerantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return lst;
+    }
     
+    public ArrayList<Gerant> findInstant(String ch){
+        String requete="select * from utilisateur where (nom like ? or prenom like ?) and role=?";
+        ArrayList<Gerant> lst=new ArrayList<Gerant>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            ps.setString(1, "%"+ch+"%");
+            ps.setString(2, "%"+ch+"%");
+            ps.setString(3, "1");
+            ResultSet resultat=ps.executeQuery();
+            while(resultat.next()){
+                Gerant gr=new Gerant();
+                gr.setId(resultat.getInt(1));
+                gr.setMail(resultat.getString(2));
+                gr.setPassword(resultat.getString(3));
+                gr.setNom(resultat.getString(4));
+                gr.setPrenom(resultat.getString(5));
+                gr.setNumTel(resultat.getString(6));
+                gr.setNumFix(resultat.getString(7));
+                lst.add(gr);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GerantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+        return lst;
+    }
 }

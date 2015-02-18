@@ -6,13 +6,13 @@
 
 package Entity;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
  *
  * @author user
- */
-public class Client extends Utilisateur{
+ */public class Client extends Utilisateur {
 
     //Attribut
     private String statusMatrimonial;
@@ -43,26 +43,20 @@ public class Client extends Utilisateur{
         return "Client{" + "statusMatrimonial=" + statusMatrimonial + '}';
     }
 
+    public Client get(int rowIndex) {
+       
+        
+     return this;
+    }
+
+
+
    
-//Equals
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Client other = (Client) obj;
-        if (!Objects.equals(this.statusMatrimonial, other.statusMatrimonial)) {
-            return false;
-        }
-        return true;
+
     }
     
+
     
     
-  
-    
-    
-}
+
+

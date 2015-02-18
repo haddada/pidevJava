@@ -6,10 +6,13 @@
 package pi.dev;
 
 import DAO.AdministrateurDAO;
+import DAO.OffreDAO;
 import DAO.SuperAdminDAO;
 import Entity.Administrateur;
+import Entity.Offre;
 import Entity.SuperAdmin;
 import javax.swing.*;
+import java.util.*;
 
 /**
  *
@@ -18,9 +21,12 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        SuperAdminDAO adDAO = new SuperAdminDAO();
-        SuperAdmin adm = new SuperAdmin(1, "mmm", "zafr", "root1", "seif@gmail");
-        adDAO.insertAdmin(adm);
+//        SuperAdminDAO adDAO = new SuperAdminDAO();
+//        SuperAdmin adm = new SuperAdmin(1, "mmm", "zafr", "root1", "seif@gmail");
+//        adDAO.insertAdmin(adm);
+        List<Offre> tt= new OffreDAO().getAllListOfOffre();
+        new OffreDAO().deleteOffre(17);
+        System.out.println(tt.get(0).toString());
 
     }
 

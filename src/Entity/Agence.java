@@ -15,100 +15,70 @@ import java.util.Objects;
 public class Agence {
     
   //Attribus
-    private int Id;
-    private String Nom;
-    private String Ville;
-    private String Description;
-    private String Adresse;
-
+    private int id;
+    private String nom;
+    private String description;
+    private Adresse adresse;
+    private Gerant gerant;
     //Constructeur
     public Agence() {
     }
+
+    public Agence(int id, String nom, String description) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+    }
+
+    public Agence(String nom, String description) {
+        this.nom = nom;
+        this.description = description;
+    }
     
-    public Agence(int Id, String Nom, String Ville, String Description, String Adresse) {
-        this.Id = Id;
-        this.Nom = Nom;
-        this.Ville = Ville;
-        this.Description = Description;
-        this.Adresse = Adresse;
-    }
-
-    //Getters & Setters
     public int getId() {
-        return Id;
+        return id;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNom() {
-        return Nom;
+        return nom;
     }
 
-    public void setNom(String Nom) {
-        this.Nom = Nom;
-    }
-
-    public String getVille() {
-        return Ville;
-    }
-
-    public void setVille(String Ville) {
-        this.Ville = Ville;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
-    public void setDescription(String Description) {
-        this.Description = Description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getAdresse() {
-        return Adresse;
+    public Adresse getAdresse() {
+        return adresse;
     }
 
-    public void setAdresse(String Adresse) {
-        this.Adresse = Adresse;
+    public void setAdresse(Adresse adresse) {
+        this.adresse = adresse;
     }
 
- //Equals
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Agence other = (Agence) obj;
-        if (this.Id != other.Id) {
-            return false;
-        }
-        if (!Objects.equals(this.Nom, other.Nom)) {
-            return false;
-        }
-        if (!Objects.equals(this.Ville, other.Ville)) {
-            return false;
-        }
-        if (!Objects.equals(this.Description, other.Description)) {
-            return false;
-        }
-        if (!Objects.equals(this.Adresse, other.Adresse)) {
-            return false;
-        }
-        return true;
+    public Gerant getGerant() {
+        return gerant;
     }
-//Affichage
+
+    public void setGerant(Gerant gerant) {
+        this.gerant = gerant;
+    }
+
     @Override
     public String toString() {
-        return "Agence{" + "Id=" + Id + ", Nom=" + Nom + ", Ville=" + Ville + ", Description=" + Description + ", Adresse=" + Adresse + '}';
+        return "Agence{" + "id=" + id + ", nom=" + nom + ", description=" + description + ", adresse=" + adresse.toString() + ", gerant=" + gerant.toString() + '}';
     }
     
     
-    
-   
 }

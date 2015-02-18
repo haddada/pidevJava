@@ -6,7 +6,9 @@
 
 package Interface;
 
+import Entity.Adresse;
 import Entity.Agence;
+import Entity.Gerant;
 import java.util.List;
 
 /**

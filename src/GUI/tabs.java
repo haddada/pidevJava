@@ -15,6 +15,11 @@ import com.alee.laf.tabbedpane.TabbedPaneStyle;
 import com.alee.laf.tabbedpane.WebTabbedPane;
 import javax.swing.*;
 import java.awt.*;
+import GUI.MainOffre;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import statistique.PieChart_AWT;
 
 public class tabs extends javax.swing.JFrame {
 
@@ -24,10 +29,13 @@ public class tabs extends javax.swing.JFrame {
     private WebTabbedPane tabbedPane;
     private JPanel superGUI;
     private JPanel addAdmin;
-    private JPanel panel3;
+    private JPanel clientPanel;
+    private JPanel statPanel;
+    public static WebPanel offrePanel = new WebPanel();
+    //public static JPanel offrePanel;
 
     public tabs() {
-		// NOTE: to reduce the amount of code in this example, it uses
+        // NOTE: to reduce the amount of code in this example, it uses
         // panels with a NULL layout.  This is NOT suitable for
         // production code since it may not display correctly for
         // a look-and-feel.
@@ -40,49 +48,52 @@ public class tabs extends javax.swing.JFrame {
 
         // Create the tab pages
         createPage1();
-        createPage2();
+        try {
+            createPage2();
+        } catch (IOException ex) {
+            Logger.getLogger(tabs.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(tabs.class.getName()).log(Level.SEVERE, null, ex);
+        }
         createPage3();
+        createPage4();
 
         // Create a tabbed pane
         tabbedPane = new WebTabbedPane();
         tabbedPane.setTabPlacement(WebTabbedPane.LEFT);
-     
-        tabbedPane.addTab("Administrateur                 ", superGUI);
-       // tabbedPane.addTab("Ajouter Admin                ", addAdmin);
-        tabbedPane.addTab("Page 3                ", panel3);
 
-                //style de pannel
+        tabbedPane.addTab("Administrateur                 ", superGUI);
+        tabbedPane.addTab("Offre                ", offrePanel);
+        tabbedPane.addTab("liste de clients              ", clientPanel);
+        tabbedPane.addTab("statistique              ", statPanel);
+
+        //style de pannel
         tabbedPane.setPreferredSize(new Dimension(500, 200));
         tabbedPane.setTabbedPaneStyle(TabbedPaneStyle.attached);
         final WebPanel tabPanel = new WebPanel(true, tabbedPane);
         tabPanel.setPaintFocus(true);
         topPanel.add(tabbedPane, BorderLayout.CENTER);
-        
-       
-       
-        
+
     }
 
     public void createPage1() {
         superGUI = new SuperGUI();
-        
+
     }
 
-    public void createPage2() {
-       // addAdmin=new AddAdmin();
-    
+    public void createPage2() throws IOException, InterruptedException {
+        offrePanel = new ListOfOffres1().createListOfOffresPanel();
+
     }
 
     public void createPage3() {
-        panel3 = new JPanel();
-        panel3.setLayout(new GridLayout(3, 2));
+        clientPanel = new ClientPanel();
+    }
 
-        panel3.add(new JLabel("Field 1:"));
-        panel3.add(new TextArea());
-        panel3.add(new JLabel("Field 2:"));
-        panel3.add(new TextArea());
-        panel3.add(new JLabel("Field 3:"));
-        panel3.add(new TextArea());
+    public void createPage4() {
+        PieChart_AWT demo = new PieChart_AWT("nombre des offres par ville");
+        statPanel = demo.createDemoPanel();
+
     }
 
     /**
@@ -150,7 +161,7 @@ public class tabs extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 WebLookAndFeel.install();
-                
+                WebLookAndFeel.setDecorateAllWindows(true);
                 new tabs().setVisible(true);
             }
         });
