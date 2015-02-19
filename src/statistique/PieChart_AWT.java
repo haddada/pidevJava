@@ -53,18 +53,15 @@ public class PieChart_AWT extends ApplicationFrame {
         DefaultPieDataset dataset = new DefaultPieDataset();
         setNbrAdresseByOffre();
         AdresseDAO adDAO = new AdresseDAO();
-        System.out.println("hi");
+  
 
         for (Map.Entry<Integer, Integer> entry : MapOfAdresse.entrySet()) {
             Integer key = entry.getKey();
             Integer value = entry.getValue();
             Adresse adresse = adDAO.findAdresseById(key);
-            dataset.setValue(adresse.getGouvernorat(), new Double(value));
+            dataset.setValue(adresse.getVille(), new Double(value));
         }
-        /* dataset.setValue( "IPhone 5s" , new Double( 20 ) );  
-         dataset.setValue( "SamSung Grand" , new Double( 20 ) );   
-         dataset.setValue( "MotoG" , new Double( 40 ) );    
-         dataset.setValue( "Nokia Lumia" , new Double( 10 ) );  */
+       
         return dataset;
     }
 

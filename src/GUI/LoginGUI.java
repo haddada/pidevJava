@@ -3,151 +3,119 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package GUI;
 
-import DAO.LoginDAO;
-import Technique.MyConnexion;
-import com.alee.extended.image.WebDecoratedImage;
-import com.alee.extended.panel.GroupPanel;
-import com.alee.extended.panel.GroupingType;
-import com.alee.global.StyleConstants;
-import com.alee.laf.WebLookAndFeel;
-import com.alee.laf.label.WebLabel;
-import com.alee.laf.panel.WebPanel;
-import com.alee.laf.text.*;
-import com.alee.laf.toolbar.WhiteSpace;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
-import javax.swing.*;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.types.Page;
+import com.restfb.types.User;
 
 /**
  *
- * @author FATHLLAH Wael
+ * @author seif
  */
-public class LoginGUI {
-    public static JFrame loginFramr;
-    public static void main ( final String[] args )
-    {
-        SwingUtilities.invokeLater ( new Runnable ()
-        {
-            
-            @Override
-            public void run ()
-            {
-               // Look and Feel 
-               WebLookAndFeel.install ();  
-               //Open LoginGUI Frame
-               openLoginFrame();             
-               }
-        });
-    }
-    
-    private static WebPanel createLoginPanel (){
-        final WebPanel panel = new WebPanel ();
-        panel.setUndecorated ( false );
-        //panel.setLayout(null);
-        panel.setBounds(50, 50000, 50000, 500);
-        panel.setWebColoredBackground ( false );
-        
-        //Logo
-        ImageIcon i1 =new ImageIcon("");
-        
-        WebDecoratedImage img2 = new WebDecoratedImage ( i1 );
-        img2.setShadeWidth ( 5 );
-        
-        //Login
-        //final JLabel textLabelLogin = new WebLabel("<html>   <head></head>    <body> <p><font size=\"4\" color=\"#000000\">LoginGUI</font></p>   </body>  </html>  ");
-        final JLabel textLabelLogin = new WebLabel("Login");
-        final JTextField textFieldLogin = new JTextField();
-        //PassWord
-        final JLabel textLabelPassWrod = new WebLabel("Mot De Passe");
-        final JPasswordField textFieldPassword = new JPasswordField();
-        //Boutton
-        final JButton login = new JButton ( "Login" );
-        final JButton cancel = new JButton ( "Cancel" );
-        //ActionListener
-        login.addActionListener ( new ActionListener ()
-        {
-            @Override
-            public void actionPerformed ( ActionEvent e )
-            {
-                //new MyConnexion();
-                LoginDAO ldao=new LoginDAO();
-                char[] pass = textFieldPassword.getPassword();
-                String passString = new String(pass);
-                String mailString = textFieldLogin.getText();
-                if(!fieldIsEmpty(mailString)){
-                    //Mail fiels not empty
-                    if(!fieldIsEmpty(passString))
-                    {
-                        //Password fiels not empty
-                        System.out.println(ldao.Login(textFieldLogin.getText(),passString));
-                    }else
-                    {
-                        System.out.println("Password field is empty");
-                    }
-                }else
-                {
-                    System.out.println("Login field is empty");
-                }
-            }
-            private boolean fieldIsEmpty(String mailString) {
-                return mailString.equals("");
-            }
-        } );
-        cancel.addActionListener ( new ActionListener ()
-        {
-            @Override
-            public void actionPerformed ( ActionEvent e )
-            {
-                loginFramr.setVisible(false); //you can't see me!
-                loginFramr.dispose(); //Destroy the JFrame object
-            }
-        } );
-        //Login Group Panel
-        final GroupPanel LoginPanel = new GroupPanel(GroupingType.fillFirst, 5,false,img2,textLabelLogin,textFieldLogin,textLabelPassWrod,textFieldPassword,
-                                                        new GroupPanel ( GroupingType.fillFirst, 5, new WhiteSpace (), login, cancel )
-                                                    );
-        
-        LoginPanel.setMargin(20, 20, 20, 20);
-       
-        // LoginGUI Panel Confeguration 
-        panel.setRound ( StyleConstants.largeRound );
-        panel.setAutoscrolls(false);
-        panel.setPreferredSize ( new Dimension ( 300, 350 ) );
-        panel.setMaximumSize(new Dimension(300, 350));
-        
-        panel.add ( LoginPanel ) ;
+public class LoginGUI extends javax.swing.JPanel {
 
-        return panel;
+    /**
+     * Creates new form LoginGUI
+     */
+   
+    public LoginGUI() {
+        initComponents();
+        // DefaultFacebookClient is the FacebookClient implementation
+    // that ships with RestFB. You can customize it by passing in
+    // custom JsonMapper and WebRequestor implementations, or simply
+    // write your own FacebookClient instead for maximum control.
+
+        FacebookClient facebookClient = new DefaultFacebookClient("CAACEdEose0cBAIZBEMlUEZBj0ctUb3oMkfqBwAYxvQkjKQLBJiyfuWFO1zEK655AUldR6ECirkuTN9hz458xxcxABWI5rlKFA8cadYytVyPAZAZCuW1ZCjMzZC0ZBKozwp5MJniOFSwJCB6nfC6gQV2rPCEZBGSldkx8HTxv2BzW8iMhf4pO5X1qsZBr4B8301wFv0vKF3ZAZATR2THdphZCPQoTlnd8du8C8qIZD");
+
+// It's also possible to create a client that can only access
+// publicly-visible data - no access token required. 
+// Note that many of the examples below will not work unless you supply an access token! 
+        FacebookClient publicOnlyFacebookClient = new DefaultFacebookClient();
+
+// Get added security by using your app secret:
+       // FacebookClient facebookClient = new DefaultFacebookClient("CAACEdEose0cBAIZBEMlUEZBj0ctUb3oMkfqBwAYxvQkjKQLBJiyfuWFO1zEK655AUldR6ECirkuTN9hz458xxcxABWI5rl"
+       //         + "KFA8cadYytVyPAZAZCuW1ZCjMzZC0ZBKozwp5MJniOFSwJCB6nfC6gQV2rPCEZBGSldkx8HTxv2BzW8iMhf4pO5X1qsZBr4B8301wFv0vKF3ZAZATR2THdphZCPQoTlnd8du8C8qIZD", "0274ae3496a60be4d7d21bf1c7d46b59");
+        User user = facebookClient.fetchObject("me", User.class);
+        Page page = facebookClient.fetchObject("cocacola", Page.class);
+
+        System.out.println("User name: " + user.getName());
+        System.out.println("Page likes: " + page.getLikes());
     }
-    private static void openLoginFrame(){
-        loginFramr =new JFrame();
-        loginFramr.setSize(300, 400);
-        loginFramr.setMaximumSize(new Dimension(300, 400));
-        loginFramr.setMinimumSize(new Dimension(300, 400));
-        loginFramr.setTitle("Login");
-        loginFramr.setLayout(new GridLayout(1, 1, 20, 20));
-        JPanel f = new JPanel();
-        f.setSize(500, 500);
-        f.setLocation(300,200);
-        f.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        f.setLayout(new GridLayout(1 , 1 , 5 , 5));
-        f.add(createLoginPanel()); 
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        loginFramr.setLocation((dim.height/2)+150, 150);
-        loginFramr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        loginFramr.add(f);
-        loginFramr.setVisible(true);
-    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        email = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+
+        email.setText("email");
+
+        jLabel1.setText("Password");
+
+        jButton1.setText("Login");
+
+        jCheckBox1.setText("login as admin");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jCheckBox1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(118, 118, 118))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(email)
+                            .addComponent(jLabel1))
+                        .addGap(93, 93, 93)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField1)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(125, 125, 125)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(email)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jCheckBox1))
+                .addGap(35, 35, 35))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel email;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    // End of variables declaration//GEN-END:variables
 }

@@ -10,7 +10,7 @@ import java.util.Objects;
 
 /**
  *
- * @author user
+ * @author ulrich blanchard
  */
 public class Media {
     

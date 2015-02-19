@@ -44,6 +44,7 @@ public class SuperGUI extends javax.swing.JPanel {
 
     public SuperGUI() {
         initComponents();
+        
         panelAjout.setLocation(200, 200);
         adminTable.setModel(new AdminAdapter());
 
@@ -82,18 +83,14 @@ public class SuperGUI extends javax.swing.JPanel {
         erase = new javax.swing.JButton();
         panelAjout = new javax.swing.JPanel();
         repeatL = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         delete = new javax.swing.JCheckBox();
         add = new javax.swing.JCheckBox();
-        nom = new javax.swing.JTextField();
-        prenom = new javax.swing.JTextField();
-        passL = new javax.swing.JLabel();
-        emailLabel = new javax.swing.JLabel();
-        prenomL = new javax.swing.JLabel();
+        mail = new javax.swing.JTextField();
         pass = new javax.swing.JTextField();
         ajout = new javax.swing.JButton();
-        mail = new javax.swing.JTextField();
         repeat = new javax.swing.JTextField();
+        prenom = new javax.swing.JTextField();
+        nom = new javax.swing.JTextField();
         photoPanel = new javax.swing.JPanel();
         show = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -128,17 +125,14 @@ public class SuperGUI extends javax.swing.JPanel {
             }
         });
 
+        panelAjout.setBackground(new java.awt.Color(241, 241, 241));
         panelAjout.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        repeatL.setText("répetez le mot de passe");
-        panelAjout.add(repeatL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 151, -1, 23));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("nom");
-        panelAjout.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, -1, -1));
+        repeatL.setIcon(new javax.swing.ImageIcon("C:\\Users\\seif\\Desktop\\design.png")); // NOI18N
+        panelAjout.add(repeatL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, 430));
 
         delete.setText("DELETE");
-        panelAjout.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, -1, -1));
+        panelAjout.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 480, -1, -1));
 
         add.setText("ADD");
         add.addActionListener(new java.awt.event.ActionListener() {
@@ -146,19 +140,9 @@ public class SuperGUI extends javax.swing.JPanel {
                 addActionPerformed(evt);
             }
         });
-        panelAjout.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
-        panelAjout.add(nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 11, 249, -1));
-        panelAjout.add(prenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 56, 249, -1));
-
-        passL.setText("mot de passe");
-        panelAjout.add(passL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 105, -1, -1));
-
-        emailLabel.setText("E-mail (obligatoire)\t");
-        panelAjout.add(emailLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 207, -1, -1));
-
-        prenomL.setText("prenom");
-        panelAjout.add(prenomL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 59, -1, -1));
-        panelAjout.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 102, 249, -1));
+        panelAjout.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 480, -1, -1));
+        panelAjout.add(mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 249, -1));
+        panelAjout.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 249, -1));
 
         ajout.setText("Ajouter Admin");
         ajout.addActionListener(new java.awt.event.ActionListener() {
@@ -166,19 +150,22 @@ public class SuperGUI extends javax.swing.JPanel {
                 ajoutActionPerformed(evt);
             }
         });
-        panelAjout.add(ajout, new org.netbeans.lib.awtextra.AbsoluteConstraints(383, 251, 114, -1));
-        panelAjout.add(mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 204, 249, -1));
-        panelAjout.add(repeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 152, 249, -1));
+        panelAjout.add(ajout, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 480, 114, -1));
+        panelAjout.add(repeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 249, -1));
+        panelAjout.add(prenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, 249, -1));
+        panelAjout.add(nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 249, -1));
+
+        photoPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout photoPanelLayout = new javax.swing.GroupLayout(photoPanel);
         photoPanel.setLayout(photoPanelLayout);
         photoPanelLayout.setHorizontalGroup(
             photoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 568, Short.MAX_VALUE)
         );
         photoPanelLayout.setVerticalGroup(
             photoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 432, Short.MAX_VALUE)
         );
 
         show.setText("detail");
@@ -195,17 +182,12 @@ public class SuperGUI extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(show)
-                .addGap(51, 51, 51)
-                .addComponent(erase)
-                .addGap(45, 45, 45))
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(panelAjout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(photoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(panelAjout, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(photoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,12 +198,18 @@ public class SuperGUI extends javax.swing.JPanel {
                         .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-                        .addGap(183, 183, 183)
-                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+                        .addGap(108, 108, 108)
+                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(recherche)
                         .addGap(42, 42, 42))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(show)
+                .addGap(58, 58, 58)
+                .addComponent(erase)
+                .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,16 +222,20 @@ public class SuperGUI extends javax.swing.JPanel {
                     .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(recherche))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(erase)
-                    .addComponent(show))
-                .addGap(59, 59, 59)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelAjout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(photoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(352, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(show)
+                            .addComponent(erase))
+                        .addGap(18, 18, 18)
+                        .addComponent(photoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                        .addComponent(panelAjout, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(87, 87, 87))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -283,10 +275,10 @@ public class SuperGUI extends javax.swing.JPanel {
         if (nom.getText().equals("")) {
             i = -1;
         }
-        if (prenom.getText().equals("")) {
+        if (mail.getText().equals("")) {
             i = -1;
         }
-        if (mail.getText().equals("")) {
+        if (prenom.getText().equals("")) {
             i = -1;
         }
         if (pass.getText().equals("")) {
@@ -307,7 +299,7 @@ public class SuperGUI extends javax.swing.JPanel {
          add 7
          delete 5
          
-         si add+delete ==> ajout modify 77 (super)        
+         si add+delete ==> ajout delete 77 (super)        
          si delete+modify=> 54   (super - add)
          si add =>70 (super -modify-delete)
          si delete=> 50 (super - add -modify)
@@ -340,9 +332,9 @@ public class SuperGUI extends javax.swing.JPanel {
             adminDAO.insertAdmin(admin);
             adminTable.setModel(new AdminAdapter());
             nom.setText("");
-            prenom.setText("");
-            pass.setText("");
             mail.setText("");
+            pass.setText("");
+            prenom.setText("");
             repeat.setText("");
             add.setSelected(false);
             delete.setSelected(false);
@@ -352,25 +344,53 @@ public class SuperGUI extends javax.swing.JPanel {
 
     private void showActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showActionPerformed
         // TODO add your handling code here:
-      
-
+        if (adminTable.getSelectedRow() == -1) {
+            if (adminTable.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "le tableau est vide");
+            } else {
+                JOptionPane.showMessageDialog(null, "il faut selectionner une ligne");
+            }
+        } else {
+        photoPanel.removeAll();
         ImageIcon icon = new ImageIcon();
         String mailSelected = (String) (adminTable.getValueAt(adminTable.getSelectedRow(), 3) + "");
-        photoPanel.removeAll();
+        String nameSelected = (String) (adminTable.getValueAt(adminTable.getSelectedRow(), 1) + "");
+        String prenomSelected = (String) (adminTable.getValueAt(adminTable.getSelectedRow(), 2) + "");
+        
         try {
             sb = new StringBuffer();
             sb = this.hashing(mailSelected);
             icon = createImageIcon("http://www.gravatar.com/avatar/" + sb.toString(), "icon");
 
+            //create Labels :
             JLabel iconLabel = new JLabel(icon, JLabel.LEFT);
-            JLabel labelNom = new JLabel(mailSelected, JLabel.RIGHT);
-
-            photoPanel.setLayout(null);
-            iconLabel.setBounds(0, 0, 100, 100);
-            labelNom.setBounds(0, 300, 150, 200);
-
+            JLabel labelMail = new JLabel(mailSelected, JLabel.CENTER);
+            JLabel labelNom=new JLabel(nameSelected,JLabel.CENTER);
+            JLabel labelPrenom=new JLabel(prenomSelected,JLabel.CENTER);
+           
+            //adding Labels:
+            
             photoPanel.add(iconLabel);
+            photoPanel.add(labelMail);
             photoPanel.add(labelNom);
+            photoPanel.add(labelPrenom);
+            
+            //styling labels:
+            
+            labelMail.setFont(new Font("Times New Roman", Font.ROMAN_BASELINE, 24));
+            labelMail.setForeground(Color.darkGray);
+            iconLabel.setBounds(0, 0, 100, 100);
+            labelMail.setBounds(200, 0, 300, 100);
+            
+            labelNom.setFont(new Font("Times New Roman", Font.ROMAN_BASELINE, 24));
+            labelNom.setForeground(Color.darkGray);
+            labelNom.setBounds(200, 30, 300, 100);
+            
+            labelPrenom.setFont(new Font("Times New Roman", Font.ROMAN_BASELINE, 24));
+            labelPrenom.setForeground(Color.darkGray);
+            labelPrenom.setBounds(200, 50, 300, 100);
+
+           
 
         } catch (MalformedURLException ex) {
             Logger.getLogger(SuperGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -379,7 +399,7 @@ public class SuperGUI extends javax.swing.JPanel {
         } catch (IOException ex) {
             Logger.getLogger(SuperGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("http://www.gravatar.com/avatar/" + sb.toString());
+        }
     }//GEN-LAST:event_showActionPerformed
 
     //fonction de hashage pour le mail
@@ -404,9 +424,7 @@ public class SuperGUI extends javax.swing.JPanel {
     private javax.swing.JTable adminTable;
     private javax.swing.JButton ajout;
     private javax.swing.JCheckBox delete;
-    private javax.swing.JLabel emailLabel;
     private javax.swing.JButton erase;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label2;
@@ -414,10 +432,8 @@ public class SuperGUI extends javax.swing.JPanel {
     private javax.swing.JTextField nom;
     private javax.swing.JPanel panelAjout;
     private javax.swing.JTextField pass;
-    private javax.swing.JLabel passL;
     private javax.swing.JPanel photoPanel;
     private javax.swing.JTextField prenom;
-    private javax.swing.JLabel prenomL;
     private javax.swing.JButton recherche;
     private javax.swing.JTextField repeat;
     private javax.swing.JLabel repeatL;
