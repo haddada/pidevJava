@@ -1,10 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 package Interface;
 
 import Entity.Utilisateur;
@@ -14,11 +7,7 @@ import Entity.Utilisateur;
  * @author user
  */
 public interface IUtilisateurDAO {
-    
     public void insertUtilisateur(Utilisateur u);
     public void deleteUtilisateur(Utilisateur u);
-  
-    
+    public Utilisateur getUtilisateur(int id);
 }
-
-

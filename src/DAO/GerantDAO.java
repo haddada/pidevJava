@@ -34,7 +34,7 @@ public class GerantDAO implements Interface.IGerantDAO{
             ps.setString(2, g.getPassword());
             ps.setString(3, g.getNom());
             ps.setString(4, g.getPrenom());
-            ps.setString(5, g.getNumTel());
+            ps.setString(5, g.getNumMobile());
             ps.setString(6, g.getNumFix());
             ps.setInt(7, 1);
             
@@ -78,7 +78,7 @@ public class GerantDAO implements Interface.IGerantDAO{
                 gr.setPassword(resultat.getString(3));
                 gr.setNom(resultat.getString(4));
                 gr.setPrenom(resultat.getString(5));
-                gr.setNumTel(resultat.getString(6));
+                gr.setNumMobile(resultat.getString(6));
                 gr.setNumFix(resultat.getString(7));
                 lst.add(gr);
             }
@@ -104,7 +104,7 @@ public class GerantDAO implements Interface.IGerantDAO{
                 gr.setPassword(resultat.getString(3));
                 gr.setNom(resultat.getString(4));
                 gr.setPrenom(resultat.getString(5));
-                gr.setNumTel(resultat.getString(6));
+                gr.setNumMobile(resultat.getString(6));
                 gr.setNumFix(resultat.getString(7));
             }
         } catch (SQLException ex) {
@@ -115,9 +115,7 @@ public class GerantDAO implements Interface.IGerantDAO{
 
     @Override
     public void updateGerant(Gerant g) {
-//      UPDATE Customers
-//SET ContactName='Alfred Schmidt', City='Hamburg'
-//WHERE CustomerName='Alfreds Futterkiste'; 
+
         String req="update utilisateur set mail=?,password=?,nom=?,prenom=?,numMobile=?,numFix=? "
                 + "where id=? and role=?";
         try {
@@ -126,7 +124,7 @@ public class GerantDAO implements Interface.IGerantDAO{
             ps.setString(2,g.getPassword());
             ps.setString(3,g.getNom());
             ps.setString(4,g.getPrenom());
-            ps.setString(5,g.getNumTel());
+            ps.setString(5,g.getNumMobile());
             ps.setString(6,g.getNumFix());
             ps.setInt(7,g.getId());
             ps.setInt(8, 1);
@@ -151,7 +149,7 @@ public class GerantDAO implements Interface.IGerantDAO{
                 gr.setPassword(resultat.getString(3));
                 gr.setNom(resultat.getString(4));
                 gr.setPrenom(resultat.getString(5));
-                gr.setNumTel(resultat.getString(6));
+                gr.setNumMobile(resultat.getString(6));
                 gr.setNumFix(resultat.getString(7));
                 lst.add(gr);
             }
@@ -175,7 +173,7 @@ public class GerantDAO implements Interface.IGerantDAO{
                 gr.setPassword(resultat.getString(3));
                 gr.setNom(resultat.getString(4));
                 gr.setPrenom(resultat.getString(5));
-                gr.setNumTel(resultat.getString(6));
+                gr.setNumMobile(resultat.getString(6));
                 gr.setNumFix(resultat.getString(7));
                 lst.add(gr);
             }
@@ -200,7 +198,7 @@ public class GerantDAO implements Interface.IGerantDAO{
                 gr.setPassword(resultat.getString(3));
                 gr.setNom(resultat.getString(4));
                 gr.setPrenom(resultat.getString(5));
-                gr.setNumTel(resultat.getString(6));
+                gr.setNumMobile(resultat.getString(6));
                 gr.setNumFix(resultat.getString(7));
                 lst.add(gr);
             }
@@ -226,7 +224,7 @@ public class GerantDAO implements Interface.IGerantDAO{
                 gr.setPassword(resultat.getString(3));
                 gr.setNom(resultat.getString(4));
                 gr.setPrenom(resultat.getString(5));
-                gr.setNumTel(resultat.getString(6));
+                gr.setNumMobile(resultat.getString(6));
                 gr.setNumFix(resultat.getString(7));
                 lst.add(gr);
             }
@@ -236,4 +234,5 @@ public class GerantDAO implements Interface.IGerantDAO{
       
         return lst;
     }
+    
 }

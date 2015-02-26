@@ -9,6 +9,7 @@ package statistique;
  *
  * @author admin
  */
+
 import Entity.Offre;
 import DAO.OffreDAO;
 import DAO.AdresseDAO;
@@ -38,8 +39,9 @@ public class PieChart_AWT extends ApplicationFrame {
         OffreDAO offreDAO = new OffreDAO();
         List<Offre> listOffre = offreDAO.getAllListOfOffre();
 
-         //key === id_adresse  value ==> nombre des apparition des adresse dans la liste des offre
+        //key === id_adresse  value ==> nombre des apparition des adresse dans la liste des offre
         //value map.get pour retourner la valeur de l'@ et on add 1
+        
         for (Offre of : listOffre) {
             if (MapOfAdresse.get(of.getId_adresse()) == null) {
                 MapOfAdresse.put(of.getId_adresse(), 0);

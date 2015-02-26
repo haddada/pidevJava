@@ -46,7 +46,7 @@ public class GerantAdapterPrenom extends AbstractTableModel{
             case 2: return gerants.get(rowIndex).getPassword();
             case 3: return gerants.get(rowIndex).getNom();
             case 4: return gerants.get(rowIndex).getPrenom();
-            case 5: return gerants.get(rowIndex).getNumTel();
+            case 5: return gerants.get(rowIndex).getNumMobile();
             case 6: return gerants.get(rowIndex).getNumFix();    
                 default: return null;
         }

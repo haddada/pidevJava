@@ -8,7 +8,6 @@ package DAO;
 import Entity.Administrateur;
 import Interface.IAdministrateurDAO;
 import Technique.MyConnection;
-import Technique.MyConnexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,57 +26,58 @@ public class AdministrateurDAO implements Interface.IAdministrateurDAO {
     private Connection connection;
 
     @Override
-    public boolean signIn(String mail, String pass) {
+    public Administrateur signIn(String mail, String pass) {
 
         String requete = "select * from administrateur where mot_de_passe=? AND mail=?";
+        Administrateur c = new Administrateur();
+
         try {
-            PreparedStatement ps = MyConnexion.getInstance().prepareStatement(requete);
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, pass);
             ps.setString(2, mail);
             ResultSet resultat = ps.executeQuery();
-
-            if (resultat.next()) {
-                System.out.println("bienvenu " + resultat.getString("nom"));
-                return true;
-            } else {
-                System.out.println("incorrect!");
-                return false;
+            while (resultat.next()) {
+                c.setId(resultat.getInt(1));
+                c.setMail(resultat.getString(5));
+                c.setPassword(resultat.getString(4));
+                c.setNom(resultat.getString(2));
+                c.setPrenom(resultat.getString(3));
+                c.setPrivilege(resultat.getInt(6));
+                return c;
             }
-
         } catch (SQLException ex) {
-            System.out.println("erreur");
-            return false;
+
         }
-     
+        return null;
     }
-    
-    
+
     @Override
     public void insertAdmin(Administrateur ad) {
-         String req = "insert into Administrateur (nom,prenom,mot_de_passe,mail,privilege) values(?,?,?,?,?) ";
+        String req = "insert into Administrateur (nom,prenom,mot_de_passe,mail,privilege) values(?,?,?,?,?) ";
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(req);
             ps.setString(1, ad.getNom());
             ps.setString(2, ad.getPrenom());
             ps.setString(3, ad.getPassword());
-            ps.setString(4,ad.getMail());
+            ps.setString(4, ad.getMail());
             ps.setInt(5, ad.getPrivilege());
             ps.execute();
         } catch (SQLException ex) {
 
         }
     }
-     public List<Administrateur> findAdminByNom(String Nom) {
-         
+
+    public List<Administrateur> findAdminByNom(String Nom) {
+
         String requete = "select * from administrateur where nom Like ?";
         ArrayList<Administrateur> lst = new ArrayList<Administrateur>();
 
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
-           ps.setString(1, "%"+Nom+"%");
+            ps.setString(1, "%" + Nom + "%");
             ResultSet resultat = ps.executeQuery();
             while (resultat.next()) {
-                 Administrateur c = new Administrateur();
+                Administrateur c = new Administrateur();
                 c.setId(resultat.getInt(1));
                 c.setMail(resultat.getString(5));
                 c.setPassword(resultat.getString(4));
@@ -100,13 +100,13 @@ public class AdministrateurDAO implements Interface.IAdministrateurDAO {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException ex) {
-          
+
         }
     }
 
     @Override
     public List<Administrateur> displayAll() {
-       String requete = "select * from administrateur";
+        String requete = "select * from administrateur";
         ArrayList<Administrateur> lst = new ArrayList<Administrateur>();
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
@@ -131,7 +131,7 @@ public class AdministrateurDAO implements Interface.IAdministrateurDAO {
 
     @Override
     public Administrateur findAdminById(int id) {
-      Administrateur c = new Administrateur();
+        Administrateur c = new Administrateur();
         String requete = "select * from utilisateur where id=?";
 
         try {
@@ -147,9 +147,25 @@ public class AdministrateurDAO implements Interface.IAdministrateurDAO {
                 c.setPrivilege(resultat.getInt(6));
             }
         } catch (SQLException ex) {
-         
+
         }
         return c;
     }
 
+        public void updateAdministrateur(Administrateur admin) {
+        String req = "update administrateur set nom=?,prenom=?,mot_de_passe=?,mail=?,privilege=? where id=? ";
+        try {
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(req);
+            ps.setString(1, admin.getNom());
+            ps.setString(2, admin.getPrenom());
+            ps.setString(3, admin.getPassword());
+            ps.setString(4, admin.getMail());
+            ps.setInt(5,admin.getPrivilege());
+            ps.setInt(6,admin.getId());
+            ps.executeUpdate();
+            System.out.println(ps);
+        } catch (SQLException ex) {
+            System.out.println("erreur de mise a jour");
+        }
+    }
 }

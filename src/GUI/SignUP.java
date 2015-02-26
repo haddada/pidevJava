@@ -9,24 +9,44 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.types.Page;
 import com.restfb.types.User;
-import DAO.ClientDAO;
-import Entity.Client;
+
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import chrriis.dj.nativeswing.swtimpl.components.WebBrowserAdapter;
 import chrriis.dj.nativeswing.swtimpl.components.WebBrowserNavigationEvent;
-import com.alee.laf.WebLookAndFeel;
-import com.restfb.FacebookClient.AccessToken;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.types.Page;
+import com.restfb.types.User;
+
+import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
-import javax.swing.*; 
-import javax.swing.JPanel;
-import java.awt.Dimension;
-import java.net.URL;
-import java.net.*;
+import Technique.Validator;
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import com.alee.laf.WebLookAndFeel;
+import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 
 
+/* DAO */
+///////////////////////////////////
+import DAO.ClientDAO;
+import DAO.GerantDAO;
+
+/* Entities */
+//////////////////////////////////
+import Entity.Client;
+import Entity.Gerant;
+/////////////////////////////////
 
 /**
  *
@@ -34,46 +54,58 @@ import java.net.*;
  */
 public class SignUP extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LoginGuiFB
-     *//*
-        public static Client currentUser;
     // les attribus 
-    public static String API_KEY = "1544983695751636";
-    public static String SECRET = "c9dbaeca6ebc4cd614cf1e317e0720db";
+    /**
+     *
+     */
+       /* entities*/
+     ///////////////////////////////
+    Client client=new Client();
+    Gerant gerant=new Gerant();
+    ///////////////////////////////
+    /*DAO*/
+    //////////////////////////////
+    ClientDAO clientDAO=new ClientDAO();
+    GerantDAO gerantDAO=new GerantDAO();
+    //////////////////////////////
+    
+    
+    /* faceBook API */
+    ///////////////////////////////////
+    public static String API_KEY = "433756370121014";
+    public static String SECRET = "0274ae3496a60be4d7d21bf1c7d46b59";
 
     public static String firstRequest = "https://graph.facebook.com/oauth/authorize?"
-    + "client_id="
-    + API_KEY
-    + "&redirect_uri=http://www.facebook.com/connect/login_success.html&"
-    + "scope=email,user_birthday";
+            + "client_id="
+            + API_KEY
+            + "&redirect_uri=http://www.facebook.com/connect/login_success.html&"
+            + "scope=email,user_birthday";
     public static String secondRequest = "https://graph.facebook.com/oauth/access_token?"
             + "client_id="
             + API_KEY
             + "&redirect_uri=http://www.facebook.com/connect/login_success.html&"
             + "client_secret=" + SECRET + "&code=";
-    public static String access_token = "CAACEdEose0cBAA7ibu82UcfUzQoqayD0iZA9cLbkqDVAYyMsbbC2ZCKSpq32s0SQTLlZCWTz4y4jpzvoTidOxha6dBUJ2YGH4Y2Ns27fIngSnrRFcqiK3ZAYeZA6WS4sAbHZCWFr0xwYy0MIJCaDXr3BQrG1pC6rCijgZAGskoZAb0Q7oKXS8FXAArrMKd8HJbpYzZArPgDKC1oD1C38ZBD5uNLWzmZAXrwBZAUZD";
+    public static String access_token = "CAAV9J4xeedQBAIZBpKge2yAtKAItjyDOzj1JBDT3I51J2odHedwynZBfZCQcv3RXoXX9ko1qmtUcpU3XUCRtMdRtKsh7ZBZAZAxslFx6oOP67Fz2W18SIqpEZA8qikyu5wNgAEnrlwrmfvjZCwfEGerXFYZAZCRMPWo2HP5O2YBI9Jdi76CLlxZCAVXAKcjvExpkgU5YgGELd3uKcoT7G2leGyDB6UvCe02hue7P7HwUNTNWgZDZD";
     public static boolean firstRequestDone = false;
     public static boolean secondRequestDone = false;
     final JFrame loginFrame = new JFrame();
     public static FacebookClient facebookClient = null;
-    private String userName;
-    private String userMail;
+    
+    
     public static boolean fbCnxEnd = false;
-    */
-    ClientDAO userDAO ;
+    
+    public String registredUserName;
+        
+    /* email & password vailidator*/
+    
+    ///////////////////////////////////
+    Validator validator = new Validator();
+
     public SignUP() {
         initComponents();
-       /* URL url = new URL("http://example.com");
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.connect();
-        int code = connection.getResponseCode();
-*/
-
+        numFixe.enable(false);
+        numMobile.enable(false);
     }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,21 +118,36 @@ public class SignUP extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
+        prenom = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
+        nom = new javax.swing.JTextField();
+        pass = new javax.swing.JPasswordField();
+        repeat = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
+        numFixe = new javax.swing.JTextField();
+        numMobile = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        jButton2 = new javax.swing.JButton();
+        gerantCheck = new javax.swing.JCheckBox();
+        status = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(241, 241, 241));
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\seif\\Desktop\\incription.PNG")); // NOI18N
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gerant.PNG"))); // NOI18N
+
+        jButton1.setText("Inscription");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\seif\\Desktop\\inscrire.PNG")); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -109,34 +156,56 @@ public class SignUP extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Inscription");
+        gerantCheck.setText("inscrire comme etant un gerant");
+        gerantCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gerantCheckActionPerformed(evt);
+            }
+        });
+
+        status.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "cilibataire", "en couple", "marié(e)", "veuf (ve)", " ", " ", " " }));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/statusMat.PNG"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(24, 24, 24)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(45, 45, 45)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(48, 48, 48))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(status, 0, 191, Short.MAX_VALUE)
+                                    .addComponent(numMobile)
+                                    .addComponent(email)
+                                    .addComponent(prenom)
+                                    .addComponent(repeat, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(pass, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(nom, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(numFixe)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(48, 48, 48)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(97, Short.MAX_VALUE))
+                        .addGap(56, 56, 56)
+                        .addComponent(gerantCheck)))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,30 +214,46 @@ public class SignUP extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(prenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(repeat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2))
-                .addGap(65, 65, 65)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(numFixe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(numMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(gerantCheck)
+                .addGap(43, 43, 43)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,13 +264,15 @@ public class SignUP extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -193,37 +280,186 @@ public class SignUP extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        userDAO=new ClientDAO();
-        AccessToken accessToken =
-        new DefaultFacebookClient().obtainAppAccessToken("433756370121014", "0274ae3496a60be4d7d21bf1c7d46b59");
-        FacebookClient facebookClient = new DefaultFacebookClient(accessToken.getAccessToken());
 
-// It's also possible to create a client that can only access
-// publicly-visible data - no access token required. 
-// Note that many of the examples below will not work unless you supply an access token! 
-        FacebookClient publicOnlyFacebookClient = new DefaultFacebookClient();
+        //getting the browser
+        NativeInterface.open();
+        NativeInterface.initialize();
+        final JFrame authFrame = new JFrame();
+        JPanel webBrowserPanel = new JPanel(new BorderLayout());
+        final JWebBrowser webBrowser = new JWebBrowser();
 
-// Get added security by using your app secret:
-        // FacebookClient facebookClient = new DefaultFacebookClient("CAACEdEose0cBAIZBEMlUEZBj0ctUb3oMkfqBwAYxvQkjKQLBJiyfuWFO1zEK655AUldR6ECirkuTN9hz458xxcxABWI5rl"
-        //         + "KFA8cadYytVyPAZAZCuW1ZCjMzZC0ZBKozwp5MJniOFSwJCB6nfC6gQV2rPCEZBGSldkx8HTxv2BzW8iMhf4pO5X1qsZBr4B8301wFv0vKF3ZAZATR2THdphZCPQoTlnd8du8C8qIZD", "0274ae3496a60be4d7d21bf1c7d46b59");
-        User user = facebookClient.fetchObject("me", User.class);
-        Page page = facebookClient.fetchObject("cocacola", Page.class);
+        webBrowser.navigate(firstRequest);
 
-        System.out.println("User Last name: " + user.getLastName());
-        System.out.println("User prenom" + user.getFirstName());
-        
-        System.out.println("Email: " + user.getEmail());
-        System.out.println("id" + user.getId());
-        
-        Client cl=new Client();
-        cl.setNom(user.getLastName());
-        cl.setPrenom(user.getFirstName());
-        cl.setPassword(user.getId());
-        cl.setMail("haddada");
-        cl.setStatusMatrimonial("cilib");
-        
-        userDAO.insertClient(cl);
+        webBrowser.addWebBrowserListener(new WebBrowserAdapter() {
+            @Override
+            public void locationChanged(WebBrowserNavigationEvent e) {
+                super.locationChanged(e);
+                // Check if first request was not done
+                if (!firstRequestDone) {
+                    // Check if you left the location and were redirected to the next
+                    // location
+
+                    if (e.getNewResourceLocation().contains("http://www.facebook.com/connect/login_success.html?code=")) {
+                        // If it successfully redirects you, get the verification code
+                        // and go for a second request
+                        String[] splits = e.getNewResourceLocation().split("=");
+                        String stage2temp = secondRequest + splits[1];
+                        System.out.println("First =" + splits[1]);
+                        webBrowser.navigate(stage2temp);
+                        firstRequestDone = true;
+                    }
+                } else {
+                    // If secondRequest is not done yet, you perform this and get the
+                    // access_token
+                    if (!secondRequestDone) {
+                        System.out.println(webBrowser.getHTMLContent());
+                        // Create reader with the html content
+                        StringReader readerSTR = new StringReader(webBrowser.getHTMLContent());
+                        // Create a callback for html parser
+                        HTMLEditorKit.ParserCallback callback;
+                        callback = new HTMLEditorKit.ParserCallback() {
+                            @Override
+                            public void handleText(char[] data, int pos) {
+                                try {
+                                    System.out.println(data);
+                                       // because there is only one line with the access_token
+                                    // in the html content you can parse it.
+                                    String string = new String(data);
+                                    String[] temp1 = string.split("&");
+                                    String[] temp2 = temp1[0].split("=");
+                                    System.out.println("access tocken=" + temp2);
+                                    access_token = temp2[1];
+                                    facebookClient = new DefaultFacebookClient(access_token);
+                                    User user = facebookClient.fetchObject("me", User.class);
+                                    Page page = facebookClient.fetchObject("cocacola", Page.class);
+
+                                    nom.setText(user.getLastName());
+                                    prenom.setText(user.getFirstName());
+                                    email.setText(user.getEmail());
+                                    
+                                    
+                                    
+                                    authFrame.dispose();
+                                    /**
+                                     * *****
+                                     */
+
+                                } catch (Exception ex) {
+
+                                }
+                            }
+                        };
+                        try {
+                            // Call the parse method
+                            new ParserDelegator().parse(readerSTR, callback, false);
+
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        // After everything is done, you can dispose the jframe
+                        authFrame.dispose();
+
+                    }
+                }
+            }
+        });
+
+        webBrowserPanel.add(webBrowser, BorderLayout.CENTER);
+        authFrame.add(webBrowserPanel);
+        authFrame.setSize(900, 700);
+        authFrame.setVisible(true);
+        authFrame.setLocationRelativeTo(null);
+
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        int i=0;
+           /* validation mail */
+        ////////////////////////////////////
+        if (email.getText().equals("")) {
+            i = -1;
+        } else if (!validator.validateEmail(email.getText())) {
+            i = -4;
+
+            JOptionPane.showMessageDialog(null, "email n'est pas valide");
+        }
+        //////////////////////////////////////////////
+        if (prenom.getText().equals("")) {
+            i = -1;
+        }
+        if (nom.getText().equals("")) {
+            i = -1;
+        }
+        if (pass.getText().equals("")) {
+            i = -1;
+        }
+
+        if (repeat.getText().equals("")) {
+            i = -1;
+        }
+        
+        if(gerantCheck.isSelected()){
+            if(numFixe.getText().equals("")){
+                i=-1;
+            }
+            if(numMobile.getText().equals("")){
+               i=-1;
+            }
+        }
+        
+        if (!validator.validatePass(pass.getText())) {
+            i = -4;
+            JOptionPane.showMessageDialog(null, "mot de passe trop faible! il faut avoir au minimum 8 charactere et une lettre majuscule");
+        }
+        if (!pass.getText().equals(repeat.getText())) {
+            i = -2;
+            JOptionPane.showMessageDialog(null, "mot de passe incorrect!");
+        }
+        /*verication de remplissage de tous les champs*/
+        ////////////////////////////////////////////////////////////////
+        
+        if (i == -1) {
+            JOptionPane.showMessageDialog(null, "il faut remplir tous les champs");
+        }       
+        if(i==0){
+            // inscription Client
+            if(!gerantCheck.isSelected()){
+                client.setStatusMatrimonial(status.getSelectedItem().toString());
+                client.setMail(email.getText());
+                client.setNom(nom.getText());
+                client.setPassword(pass.getText());
+                client.setPrenom(prenom.getText());
+                client.setNumFix(numFixe.getText());
+                client.setNumMobile(numMobile.getText());
+                clientDAO.insertClient(client);
+            }// inscription Gerant
+            else{
+               
+                gerant.setMail(email.getText());
+                gerant.setNom(nom.getText());
+                gerant.setPassword(pass.getText());
+                gerant.setPrenom(prenom.getText());
+                gerant.setNumFix(numFixe.getText());
+                gerant.setNumMobile(numMobile.getText());
+                gerantDAO.insertGerant(gerant);
+                        
+                    
+            }
+                
+            
+            
+            
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void gerantCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerantCheckActionPerformed
+        // TODO add your handling code here:
+        numFixe.enable(true);
+        numMobile.enable(true);
+    }//GEN-LAST:event_gerantCheckActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,17 +475,24 @@ public class SignUP extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SignUP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SignUP.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SignUP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SignUP.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SignUP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SignUP.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SignUP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SignUP.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -257,23 +500,29 @@ public class SignUP extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 WebLookAndFeel.install();
-                WebLookAndFeel.setDecorateAllWindows(true);
+                // WebLookAndFeel.setDecorateFrames(true);
                 new SignUP().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField email;
+    private javax.swing.JCheckBox gerantCheck;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField nom;
+    private javax.swing.JTextField numFixe;
+    private javax.swing.JTextField numMobile;
+    private javax.swing.JPasswordField pass;
+    private javax.swing.JTextField prenom;
+    private javax.swing.JPasswordField repeat;
+    private javax.swing.JComboBox status;
     // End of variables declaration//GEN-END:variables
 }

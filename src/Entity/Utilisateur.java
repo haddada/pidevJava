@@ -1,87 +1,101 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Entity;
-
-import java.util.Objects;
 
 /**
  *
  * @author user
  */
 public class Utilisateur {
-    
-    private int Id;
-    private String Nom;
-    private String Prenom;
-    private String Mail;
-    private String Password;
+
+    private int id;
+    private String mail;
+    private String password;
+    private String nom;
+    private String prenom;
+    private String numMobile;
+    private String numFix;
+    private int role;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(String Nom, String Prenom, String Mail, String Password) {
-        this.Nom = Nom;
-        this.Prenom = Prenom;
-        this.Mail = Mail;
-        this.Password = Password;
-    }
-    
-    
-    public Utilisateur(int Id, String Nom, String Prenom, String Mail, String Password) {
-        this.Id = Id;
-        this.Nom = Nom;
-        this.Prenom = Prenom;
-        this.Mail = Mail;
-        this.Password = Password;
+    public Utilisateur(int id, String mail, String password, String nom, String prenom, String numMobile, String numFix, int role) {
+        this.id = id;
+        this.mail = mail;
+        this.password = password;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.numMobile = numMobile;
+        this.numFix = numFix;
+        this.role = role;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
-    public String getNom() {
-        return Nom;
-    }
-
-    public String getPrenom() {
-        return Prenom;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMail() {
-        return Mail;
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setNom(String Nom) {
-        this.Nom = Nom;
+    public String getNom() {
+        return nom;
     }
 
-    public void setPrenom(String Prenom) {
-        this.Prenom = Prenom;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public void setMail(String Mail) {
-        this.Mail = Mail;
+    public String getPrenom() {
+        return prenom;
     }
 
-    public void setPassword(String Password) {
-        this.Password = Password;
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getNumMobile() {
+        return numMobile;
+    }
+
+    public void setNumMobile(String numMobile) {
+        this.numMobile = numMobile;
+    }
+
+    public String getNumFix() {
+        return numFix;
+    }
+
+    public void setNumFix(String numFix) {
+        this.numFix = numFix;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
-        return "Utilisateur{" + "Id=" + Id + ", Nom=" + Nom + ", Prenom=" + Prenom + ", Mail=" + Mail + ", Password=" + Password + '}';
+        return "Utilisateur{" + "Id=" + id + ", Nom=" + nom + ", Prenom=" + prenom + ", Mail=" + mail + "}";
     }
 
     @Override
@@ -99,29 +113,10 @@ public class Utilisateur {
             return false;
         }
         final Utilisateur other = (Utilisateur) obj;
-        if (this.Id != other.Id) {
-            return false;
-        }
-        if (!Objects.equals(this.Nom, other.Nom)) {
-            return false;
-        }
-        if (!Objects.equals(this.Prenom, other.Prenom)) {
-            return false;
-        }
-        if (!Objects.equals(this.Mail, other.Mail)) {
-            return false;
-        }
-        if (!Objects.equals(this.Password, other.Password)) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

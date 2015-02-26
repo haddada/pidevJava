@@ -16,7 +16,7 @@ import java.util.List;
 public interface IAdministrateurDAO {
     
 //Authentification
-    public boolean signIn(String Login,String Password);   
+    public Administrateur signIn(String Login,String Password);   
     public void insertAdmin(Administrateur ad);
     public void deleteAdmin(int id);
     public List<Administrateur> displayAll();

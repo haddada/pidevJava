@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class GerantAdapter extends AbstractTableModel{
     List<Gerant> gerants; 
-        String []header={"ID Gerant","Mail","Password","Nom","Prenom","NumMobile","NumFix"}; 
+        String []header={"ID","Mail","Password","Nom","Prenom","NumMobile","NumFix"}; 
 
     public GerantAdapter() {
         gerants = new GerantDAO().displayAll();
@@ -42,7 +42,7 @@ public class GerantAdapter extends AbstractTableModel{
             case 2: return gerants.get(rowIndex).getPassword();
             case 3: return gerants.get(rowIndex).getNom();
             case 4: return gerants.get(rowIndex).getPrenom();
-            case 5: return gerants.get(rowIndex).getNumTel();
+            case 5: return gerants.get(rowIndex).getNumMobile();
             case 6: return gerants.get(rowIndex).getNumFix();
                 default: return null;
         }

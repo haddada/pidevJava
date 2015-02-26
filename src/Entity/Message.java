@@ -1,5 +1,8 @@
 package Entity;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 /**
  *
  * @author Elyes
@@ -9,23 +12,22 @@ public class Message {
     private long id;
     private String contenu;
     private short vu;
-    private short minute;
-    private short heure;
-    private short jour;
-    private short mois;
-    private short annee;
     private int id_expediteur;
     private int id_destinataire;
+    private String temps_envoi;
+    private long date;
 
     public Message() {
     }
 
-    public Message(long id, String contenu, short vu, int id_expediteur, int id_destinataire) {
+    public Message(long id, int id_expediteur, int id_destinataire, String contenu, short vu, Timestamp time) {
         this.id = id;
         this.contenu = contenu;
         this.vu = vu;
         this.id_expediteur = id_expediteur;
         this.id_destinataire = id_destinataire;
+        this.temps_envoi = time.toString();
+        this.date = time.getTime();
     }
 
     public long getId() {
@@ -52,38 +54,6 @@ public class Message {
         this.vu = vu;
     }
 
-    public short getMinute() {
-        return minute;
-    }
-
-    public void setMinute(short minute) {
-        this.minute = minute;
-    }
-
-    public short getHeure() {
-        return heure;
-    }
-
-    public void setHeure(short heure) {
-        this.heure = heure;
-    }
-
-    public short getMois() {
-        return mois;
-    }
-
-    public void setMois(short mois) {
-        this.mois = mois;
-    }
-
-    public short getAnnee() {
-        return annee;
-    }
-
-    public void setAnnee(short annee) {
-        this.annee = annee;
-    }
-
     public int getId_expediteur() {
         return id_expediteur;
     }
@@ -98,6 +68,22 @@ public class Message {
 
     public void setId_destinataire(int id_destinataire) {
         this.id_destinataire = id_destinataire;
+    }
+
+    public String getTemps_envoi() {
+        return temps_envoi;
+    }
+
+    public void setTemps_envoi(String temps_envoi) {
+        this.temps_envoi = temps_envoi;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
 }

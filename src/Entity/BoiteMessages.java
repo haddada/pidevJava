@@ -18,8 +18,4 @@ public class BoiteMessages {
         this.box.add(m);
     }
 
-    public void supprimerMessage(Message m) {
-        this.box.remove(m);
-    }
-
 }

@@ -18,6 +18,7 @@ import java.util.List;
 public interface IAgenceDAO {
     public void insertAgence(Agence ag);
     public void deleteAgence(int id);
+    public void updateAgence(Agence ag);
     public List<Agence> displayAll();
     public Agence findAgenceById(int id);
     
